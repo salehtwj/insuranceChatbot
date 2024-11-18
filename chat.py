@@ -75,22 +75,63 @@ def chat(userInput):
     })
     return res['text']
 
-# Streamlit interface
+# Streamlit interface with custom layout
 def main():
-    st.title("Bupa Climate-Related Health Risk Chatbot")
+    st.markdown("""
+        <style>
+            .chat-container {
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                height: 80vh; /* 80% of the screen height for the chat */
+                overflow-y: auto;
+            }
+            .user-message {
+                color: blue;
+                text-align: left;
+                margin-bottom: 10px;
+            }
+            .assistant-message {
+                color: green;
+                text-align: right;
+                margin-bottom: 10px;
+            }
+            .chatbox {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                padding: 10px;
+                box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 24px;
+                font-weight: bold;
+            }
+        </style>
+    """, unsafe_allow_html=True)
 
+    # Title at the top
+    st.markdown('<div class="header">Bupa Climate-Related Health Risk Chatbot</div>', unsafe_allow_html=True)
+
+    # Welcome message
     st.write("Welcome to the Climate Health Risk Predictor! I can help you understand how climate conditions might impact your health and provide personalized recommendations.")
 
-    # Display the conversation history
+    # Display the conversation history in a scrollable container
+    st.markdown('<div class="chat-container">', unsafe_allow_html=True)
     for message in reversed(st.session_state.messages):  # Show the latest messages at the top
         if message[0] == "user":
-            st.markdown(f"<p style='color:blue; text-align:left'>{message[1]}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p class='user-message'>{message[1]}</p>", unsafe_allow_html=True)
         else:
-            st.markdown(f"<p style='color:green; text-align:right'>{message[1]}</p>", unsafe_allow_html=True)
+            st.markdown(f"<p class='assistant-message'>{message[1]}</p>", unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    # Get user input at the bottom
+    # Get user input at the bottom (fixed position)
     user_input = st.text_input("Enter your message:")
-    
+
     if user_input:
         # Get AI response
         ai_response = chat(user_input)
