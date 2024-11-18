@@ -1,4 +1,4 @@
 streamlit
-langchain 
+langchain
 langchain_groq
 requests
