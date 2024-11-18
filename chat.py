@@ -63,12 +63,13 @@ MODEL = LLMChain(llm=llm,
                  verbose=False)
 
 # Initialize conversation history
-history = []
+if 'messages' not in st.session_state:
+    st.session_state.messages = []
 
 # Function to handle chat logic
 def chat(userInput):
-    res = MODEL.invoke({"weather": getweather('riyadh'), "input": userInput, "history": history})
-    history.append({
+    res = MODEL.invoke({"weather": getweather('riyadh'), "input": userInput, "history": st.session_state.messages})
+    st.session_state.messages.append({
         "user": userInput,
         "assistant": res['text']
     })
@@ -79,10 +80,6 @@ def main():
     st.title("Bupa Climate-Related Health Risk Chatbot")
 
     st.write("Welcome to the Climate Health Risk Predictor! I can help you understand how climate conditions might impact your health and provide personalized recommendations.")
-
-    # Initialize chat history display
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
 
     # Display the conversation history
     for message in reversed(st.session_state.messages):  # Show the latest messages at the top
