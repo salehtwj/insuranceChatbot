@@ -96,6 +96,7 @@ def main():
             }
             .chatbox {
                 position: fixed;
+                background-color: rgb(201, 76, 76);
                 bottom: 0;
                 left: 0;
                 width: 100%;
