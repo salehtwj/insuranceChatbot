@@ -121,7 +121,7 @@ def main():
 
     # Display the conversation history in a scrollable container
     st.markdown('<div class="chat-container">', unsafe_allow_html=True)
-    for message in reversed(st.session_state.messages):  # Show the latest messages at the top
+    for message in (st.session_state.messages):  # Show the latest messages at the top
         if message[0] == "user":
             st.markdown(f"<p class='user-message'>{message[1]}</p>", unsafe_allow_html=True)
         else:
